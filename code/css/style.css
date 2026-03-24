@@ -1,0 +1,102 @@
+RESET
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Press Start 2P', cursive;
+}
+
+
+/* MAIN CONTAINER */
+main {
+    width: 600px;
+    margin: 40px auto;
+    background: #d9d9d9;
+    border: 2px solid #999;
+    padding: 20px;
+    position: relative;
+}
+
+/* HEADER */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 24px;
+}
+
+header div {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+/* SIDE MENU */
+nav {
+    position: absolute;
+    left: 10px;
+    top: 50px;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav li {
+    margin-bottom: 10px;
+}
+
+nav button {
+    width: 60px;
+    height: 40px;
+    cursor: pointer;
+}
+
+/* CHARACTER */
+section:nth-of-type(1) {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+section:nth-of-type(1) img {
+    margin: 10px 0;
+}
+
+/* SKILLS */
+section:nth-of-type(2) {
+    position: absolute;
+    right: 20px;
+    top: 120px;
+}
+
+section:nth-of-type(2) div {
+    margin-bottom: 10px;
+    padding: 5px;
+    border: 1px solid #aaa;
+    background: #fff;
+}
+
+/* ACTION BUTTONS */
+section:nth-of-type(3) {
+    text-align: center;
+    margin-top: 20px;
+}
+
+section:nth-of-type(3) button {
+    display: block;
+    width: 120px;
+    margin: 10px auto;
+    padding: 10px;
+    cursor: pointer;
+    border: 1px solid #666;
+    background-color: #f2f2f2;
+}
+
+section:nth-of-type(3) button:hover {
+    background-color: #ccc;
+}

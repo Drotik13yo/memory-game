@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <title>Game1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="game-container">
+
+        <button class="back-btn">←</button>
+
+        <div class="container">
+            <div class="screen active" id="start-screen">
+                <h1>English word game</h1>
+                <p>level 1</p>
+                <button id="start-btn">Start game</button>
+            </div>
+
+            <div class="screen" id="game-screen">
+                <div class="game-header">
+                    <h2 id="main-word">Word comes here</h2>
+                    <div class="word-info">
+                        <p>
+                            Question <span id="current-question">1</span>> of<span>5</span>
+                        </p>
+
+                        <p>
+                            Score: <span id="score">0</span>
+                        </p>
+                    </div>
+
+                    <div id="answer-container" class="answer-container">
+
+                    </div>
+
+                    <div class="progres-bar">
+                        <div id="progress" class="progress">
+
+                        </div>
+                    </div>
+
+                    <div id="result-screen" class="screen">
+                        <h1>Quiz Result</h1>
+                        <div class="result-info">
+                            <p>You scored <span id="final-score">0</span> out of <span id="max-score"> 5 </span></p>
+                            
+                            <div id="result-message">Good job</div>
+
+                        </div>
+                        <button id="restart-button">Restart</button>
+                    </div>
+
+
+
+
+
+
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+            <!-- <p id="word">betekenis</p>
+        </div>
+
+        <div class="answers">
+            <button class="answer">1</button>
+            <button class="answer">2</button>
+            <button class="answer">3</button>
+            <button class="answer">4</button>
+        </div>
+
+    </div> -->
+
+    <script src="script.js"></script>
+</body>
+</html>
