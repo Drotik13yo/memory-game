@@ -1,0 +1,45 @@
+
+body {
+    background: #eee;
+    font-family: sans-serif;
+}
+
+#main-word {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 40px auto 30px auto;
+    width: 250px;
+    height: 150px;
+
+    border: 2px solid #888;
+    border-radius: 8px;
+
+    text-align: center;
+}
+
+/* Контейнер */
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(2, 120px);
+    gap: 15px;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Кнопки */
+.button-container button {
+    padding: 10px;
+    border: 2px solid #888;
+    background: white;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.button-container button:hover {
+    background: #f2f2f2;
+    transform: scale(1.05);
+}
