@@ -43,3 +43,42 @@ body {
     background: #f2f2f2;
     transform: scale(1.05);
 }
+.popup {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    
+    padding: 12px 24px;
+    border-radius: 10px;
+    
+    font-size: 16px;
+    font-weight: 500;
+    
+    opacity: 0;
+    pointer-events: none;
+    
+    transition: all 0.3s ease;
+    
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* показать */
+.popup.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* правильный ответ */
+.popup.correct {
+    background: #d8f3dc;      /* мягкий зелёный */
+    color: #2d6a4f;
+    border: 1px solid #95d5b2;
+}
+
+/* неправильный ответ */
+.popup.wrong {
+    background: #f8d7da;      /* мягкий красный */
+    color: #842029;
+    border: 1px solid #f1aeb5;
+}

@@ -37,7 +37,7 @@ const options = [
 ]; 
 
 // берет перевод слова
-const correctAnimal = animals.find(a => a.en === randomWord);
+const correctWord = animals.find(a => a.en === randomWord);
 
 const correctIndex = Math.floor(Math.random() * options.length);
 
@@ -45,14 +45,14 @@ const correctIndex = Math.floor(Math.random() * options.length);
 options.forEach((btn, i) => {
 
     if (i === correctIndex) {
-        btn.innerText = correctAnimal.nl;
+        btn.innerText = correctWord.nl;
     } else {
         let randomWrong;
 
         do {
             const rand = Math.floor(Math.random() * animals.length);
             randomWrong = animals[rand].nl;
-        } while (randomWrong === correctAnimal.nl);
+        } while (randomWrong === correctWord.nl);
 
         btn.innerText = randomWrong;
     }
@@ -60,17 +60,38 @@ options.forEach((btn, i) => {
 });
 
 
-document.getElementById('btn1').addEventListener('click', function() {
-    alert('button1');
-  });
-document.getElementById('btn2').addEventListener('click', function() {
-    alert('button2');
-  })
-document.getElementById('btn3').addEventListener('click', function() {
-    alert('button3');
-  })
-document.getElementById('btn4').addEventListener('click', function() {
-    alert('button4');
-  })
+function openPopup() {
+  var popup = document.getElementById("popup");
+  popup.classList.add('show');
+}
+
+function closePopup() {
+  var popup = document.getElementById("popup");
+  popup.classList.remove('show');
+}
 
 
+["btn1", "btn2", "btn3", "btn4"].forEach((id, i) => {
+    document.getElementById(id).addEventListener("click", () => {
+        const btnText = document.getElementById(`word${i + 1}`).innerText;
+        if (btnText === correctWord.nl){
+            let popup = document.getElementById("popup");
+            popup.innerHTML = "Correct!";
+            popup.classList.add('correct');
+            popup.classList.remove('wrong');
+            openPopup();
+        }
+        else {
+            let popup = document.getElementById("popup");
+            popup.innerHTML = "Not correct!!";
+            popup.classList.add('wrong');
+            popup.classList.remove('correct');
+            openPopup();
+        }
+
+    });
+    
+
+    
+});
+//я остановилась на всплывающем окне, осталось превратить все в цикл, поставить переменную очков, раундов и екран результата
