@@ -63,11 +63,12 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
-/* показать */
+/* показать, убрать */
 .popup.show {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
+
 
 /* правильный ответ */
 .popup.correct {
@@ -81,4 +82,31 @@ body {
     background: #f8d7da;      /* мягкий красный */
     color: #842029;
     border: 1px solid #f1aeb5;
+}
+.progress-box {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+
+    padding: 12px 20px;
+    border-radius: 10px;
+
+    background: #fff;
+    border: 2px solid #888;
+
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+
+    opacity: 0.9;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+    transition: all 0.3s ease;
+}
+
+/* лёгкий hover как у кнопок */
+.progress-box:hover {
+    transform: scale(1.05);
+    background: #f2f2f2;
 }

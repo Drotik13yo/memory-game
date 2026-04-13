@@ -1,3 +1,4 @@
+
 const animals = [
     { en: "cat", nl: "kat" },
     { en: "dog", nl: "hond" },
@@ -21,6 +22,15 @@ const animals = [
     { en: "fish", nl: "vis" }
 ];
 
+
+
+let count = 0;
+let correctWord;
+
+generateQuestion();
+
+function generateQuestion() {
+    console.log("works");
 // генерирует главное слово из массива
 let mainword = document.getElementById("main-word"); 
 const randomIndex = Math.floor(Math.random() * animals.length);
@@ -37,7 +47,7 @@ const options = [
 ]; 
 
 // берет перевод слова
-const correctWord = animals.find(a => a.en === randomWord);
+correctWord = animals.find(a => a.en === randomWord);
 
 const correctIndex = Math.floor(Math.random() * options.length);
 
@@ -59,6 +69,20 @@ options.forEach((btn, i) => {
 
 });
 
+};
+
+function checklevels(){
+    if (count > 10){
+        let popup = document.getElementById("popup");
+            popup.innerHTML = "WORKS!";
+            popup.classList.add('correct');
+            popup.classList.remove('wrong');
+            openPopup();
+    }
+    else {
+        generateQuestion();
+    }
+};
 
 function openPopup() {
   var popup = document.getElementById("popup");
@@ -68,6 +92,15 @@ function openPopup() {
 function closePopup() {
   var popup = document.getElementById("popup");
   popup.classList.remove('show');
+}
+
+function updateCounter() {
+    let current = document.getElementById("current");
+    current.textContent = count;
+}
+
+function autoClosePopup() {
+    setTimeout(closePopup, 3000);
 }
 
 
@@ -80,6 +113,10 @@ function closePopup() {
             popup.classList.add('correct');
             popup.classList.remove('wrong');
             openPopup();
+            count++;
+            checklevels();
+            autoClosePopup();
+            updateCounter();
         }
         else {
             let popup = document.getElementById("popup");
@@ -87,11 +124,23 @@ function closePopup() {
             popup.classList.add('wrong');
             popup.classList.remove('correct');
             openPopup();
+            count++;
+            checklevels();
+            autoClosePopup();
+            updateCounter();
+            
         }
 
     });
-    
 
     
 });
-//я остановилась на всплывающем окне, осталось превратить все в цикл, поставить переменную очков, раундов и екран результата
+
+
+
+
+
+
+
+
+
