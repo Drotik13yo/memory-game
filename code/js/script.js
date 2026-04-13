@@ -72,12 +72,37 @@ options.forEach((btn, i) => {
 };
 
 function checklevels(){
-    if (count > 10){
-        let popup = document.getElementById("popup");
-            popup.innerHTML = "WORKS!";
-            popup.classList.add('correct');
-            popup.classList.remove('wrong');
+    if (count > 9){
+        const popup = document.getElementById("popup");
+            popup.innerHTML = `
+                <div class="title">Level finished! Well done</div>
+                <div class="buttons">
+                    <button class="next">Next level</button>
+                    <button class="menu">Menu</button>
+                </div>
+            `;
+            popup.classList.add('finishlevel');
+            popup.classList.remove('correct', 'wrong');
+
+            showOverlay();
             openPopup();
+            clearTimeout(popupTimer);
+
+            // кнопки
+            popup.querySelector(".next").addEventListener("click", () => {
+                count = 0;
+                updateCounter();
+
+                popup.classList.remove("finishlevel", "show");
+                hideOverlay();
+
+                generateQuestion();
+            });
+
+            popup.querySelector(".menu").addEventListener("click", () => {
+                location.reload();
+            });
+
     }
     else {
         generateQuestion();
@@ -99,8 +124,11 @@ function updateCounter() {
     current.textContent = count;
 }
 
+let popupTimer;
+
 function autoClosePopup() {
-    setTimeout(closePopup, 3000);
+    clearTimeout(popupTimer);
+    popupTimet = setTimeout(closePopup, 3000);
 }
 
 
@@ -115,7 +143,6 @@ function autoClosePopup() {
             openPopup();
             count++;
             checklevels();
-            autoClosePopup();
             updateCounter();
         }
         else {
@@ -126,7 +153,6 @@ function autoClosePopup() {
             openPopup();
             count++;
             checklevels();
-            autoClosePopup();
             updateCounter();
             
         }
@@ -135,6 +161,23 @@ function autoClosePopup() {
 
     
 });
+
+
+
+
+
+
+
+
+
+
+function showOverlay() {
+    document.getElementById("overlay").classList.add("show");
+}
+
+function hideOverlay() {
+    document.getElementById("overlay").classList.remove("show");
+}
 
 
 

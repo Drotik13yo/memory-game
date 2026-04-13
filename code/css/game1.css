@@ -110,3 +110,103 @@ body {
     transform: scale(1.05);
     background: #f2f2f2;
 }
+
+/* большой попап завершения уровня */
+.popup.finishlevel {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+
+    width: 320px;
+    padding: 20px;
+
+    text-align: center;
+
+    background: #eee;              /* как у body */
+    border: 2px solid #888;       /* как у кнопок */
+    border-radius: 10px;
+
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+
+    opacity: 0;
+    pointer-events: none;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+    transition: all 0.3s ease;
+}
+
+/* показать */
+.popup.finishlevel.show {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+}
+
+/* текст внутри */
+.popup.finishlevel .title {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+/* контейнер кнопок */
+.popup.finishlevel .buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* кнопки */
+.popup.finishlevel button {
+    padding: 10px;
+    border: 2px solid #888;
+    background: white;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.popup.finishlevel button:hover {
+    background: #f2f2f2;
+    transform: scale(1.05);
+}
+
+/* кнопка "дальше" */
+.popup.finishlevel .next {
+    font-weight: 600;
+}
+
+.popup.finishlevel .next:hover {
+    background: #43a047;
+}
+
+/* кнопка "в меню" */
+.popup.finishlevel .menu {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.popup.finishlevel .menu:hover {
+    background: #d5d5d5;
+}
+
+/* затемнение фона */
+#overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+
+    opacity: 0;
+    pointer-events: none;
+
+    transition: 0.3s;
+}
+
+/* показываем overlay */
+#overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
