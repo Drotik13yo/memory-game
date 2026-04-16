@@ -1,4 +1,3 @@
-
 const animals = [
     { en: "cat", nl: "kat" },
     { en: "dog", nl: "hond" },
@@ -146,13 +145,24 @@ let currentLevel = 0;
 let currentLevels = allLevels[currentLevel];
 
 function nextLevel() {
-    currentLevel++
-    if (currentLevel >= allLevels.length) {
-        currentLevel = 0;
-    }
-        currentLevels = allLevels[currentLevel];
+    levelResults.push(rightAnswer);
 
-};
+    currentLevel++;
+
+    if (currentLevel >= allLevels.length) {
+        showFinalResult();
+        return false;
+    }
+
+    currentLevels = allLevels[currentLevel];
+
+    count = 0;
+    rightAnswer = 0;
+    updateCounter();
+    document.getElementById("right-answer-count").textContent = rightAnswer;
+
+    return true;
+}
 
 //счетчик слов
 let count = 0;
@@ -166,11 +176,10 @@ function generateQuestion() {
 
     let mainword = document.getElementById("main-word"); 
     const randomIndex = Math.floor(Math.random() * currentLevels.length);
-    const randomWord = currentLevels[randomIndex].en; mainword.innerHTML = randomWord;
+    const correctWordObj = currentLevels[randomIndex];
+    const randomWord = correctWordObj.en;
     mainword.innerHTML = randomWord;
-    
 
-    // генерирует варианты
     const options = [
         document.getElementById("word1"),
         document.getElementById("word2"),
@@ -178,14 +187,12 @@ function generateQuestion() {
         document.getElementById("word4")
     ]; 
 
-
-    // берет перевод слова
-    correctWord = currentLevels.find(a => a.en === randomWord);
+    correctWord = correctWordObj;
 
     const correctIndex = Math.floor(Math.random() * options.length);
 
-    // кнопки ответов
-    let used = [];
+    let used = [correctWord.nl];
+
     options.forEach((btn, i) => {
 
         if (i === correctIndex) {
@@ -197,37 +204,35 @@ function generateQuestion() {
             do {
                 const rand = Math.floor(Math.random() * currentLevels.length);
                 randomWrong = currentLevels[rand].nl;
-            } while (
-                randomWrong === correctWord.nl ||
-                used.includes(randomWrong)
+            } while (used.includes(randomWrong));
 
-
-            );
             used.push(randomWrong);
             btn.innerText = randomWrong;
 
         }
 
     });
-
+    
 };
 //если больше 10 слов отвечено, попап некст
 function checklevels(){
     if (count >= 10){
-
         clearTimeout(popupTimer);
-        setTimeout(nextPopup, 500);
 
-    }
-    else {
+        setTimeout(() => {
+            nextPopup();
+        }, 500);
+    } else {
         generateQuestion();
     }
-};
+}
 
 function nextPopup(){
+
+    isLocked = false;
     const popup = document.getElementById("popup");
             popup.innerHTML = `
-                <div class="title">Level finished! Well done</div>
+                <div class="title">Good job, ${rightAnswer}/10 correct </div>
                 <div class="buttons">
                     <button class="next">Next level</button>
                     <button class="menu">Menu</button>
@@ -238,15 +243,20 @@ function nextPopup(){
 
             showOverlay();
             openPopup();
+            
 
-            // кнопки
             popup.querySelector(".next").addEventListener("click", () => {
-                count = 0;
-                nextLevel();
-                updateCounter();
+                levelResults.push(rightAnswer);
 
-                popup.classList.remove("finishlevel", "show");
+                resetStats();
+
+                const hasNext = nextLevel();
+                if (!hasNext) return;
+
                 hideOverlay();
+                closePopup();
+
+                isLocked = false;
 
                 generateQuestion();
             });
@@ -255,7 +265,14 @@ function nextPopup(){
                 location.reload();
             });
 };
+//очистка 
+function resetStats() {
+    count = 0;
+    rightAnswer = 0;
 
+    updateCounter();
+    document.getElementById("right-answer-count").textContent = rightAnswer;
+}
 //открытие закрытие всплывающего окна
 function openPopup() {
   var popup = document.getElementById("popup");
@@ -272,6 +289,12 @@ function updateCounter() {
     let current = document.getElementById("current");
     current.textContent = count;
 }
+//cчетчик правильных
+let rightAnswer = 0;
+function updateRightAnswer(){
+    rightAnswer++;
+    document.getElementById("right-answer-count").textContent = rightAnswer;
+};
 
 //время через сколько закроеться всплывающие окно
 let popupTimer;
@@ -279,52 +302,54 @@ function autoClosePopup() {
     clearTimeout(popupTimer);
     popupTimer = setTimeout(closePopup, 550);
 }
-
+//от прокликивание
+let isLocked = false;
 //проверка на правильность ответа
 ["btn1", "btn2", "btn3", "btn4"].forEach((id, i) => {
     document.getElementById(id).addEventListener("click", () => {
+
+        if (isLocked) return;
+        isLocked = true;
+
         const btnText = document.getElementById(`word${i + 1}`).innerText;
+        let popup = document.getElementById("popup");
+
         if (btnText === correctWord.nl){
-            let popup = document.getElementById("popup");
             popup.innerHTML = "Correct!";
             popup.classList.add('correct');
-            popup.classList.remove('wrong');
-            openPopup();
+            popup.classList.remove('wrong', 'finishlevel');
+
             count++;
             updateCounter();
-            if (count > 9) {
-                checklevels();
-            } else {
-                autoClosePopup();
-                showOverlay();
-                setTimeout(hideOverlay, 300);
-                setTimeout(generateQuestion, 550);
-            }
-        }
-        else {
-            let popup = document.getElementById("popup");
+            updateRightAnswer();
+        } else {
             popup.innerHTML = "Not correct!!";
             popup.classList.add('wrong');
-            popup.classList.remove('correct');
-            openPopup();
+            popup.classList.remove('correct', 'finishlevel');
+
             count++;
             updateCounter();
-            if (count > 9) {
-                checklevels();
-            } else {
-                autoClosePopup();
-                showOverlay();
-                setTimeout(hideOverlay, 300);
-                setTimeout(generateQuestion, 550);
-            }
         }
 
-    });
+        openPopup();
 
-    
+        if (count >= 10) {
+            checklevels();
+        } else {
+            autoClosePopup();
+            showOverlay();
+
+            setTimeout(hideOverlay, 300);
+
+            setTimeout(() => {
+                generateQuestion();
+                isLocked = false;
+            }, 550);
+        }
+    });
 });
 
-
+//затемнение
 function showOverlay() {
     document.getElementById("overlay").classList.add("show");
 }
@@ -333,11 +358,91 @@ function hideOverlay() {
     document.getElementById("overlay").classList.remove("show");
 }
 
+//пройденные уровни
+let levelsCompleted = 0;
 
+function showFinalResult() {
+    const popup = document.getElementById("popup");
 
+    popup.innerHTML = `
+        <div class="title">Game completed!</div>
+        <div class="result">
+            Correct answers: ${rightAnswer}
+        </div>
+        <div class="buttons">
+            <button class="menu">Restart</button>
+        </div>
+    `;
 
+    popup.classList.add("finishlevel");
+    popup.classList.remove("correct", "wrong");
 
+    showOverlay();
+    openPopup();
 
+    popup.querySelector(".menu").addEventListener("click", () => {
+        location.reload();
+    });
+}
 
+//подсчет баллов за уровень
+let totalRightAnswers = 0;
 
+function updateRightAnswer(){
+    rightAnswer++;
+    totalRightAnswers++;
+    document.getElementById("right-answer-count").textContent = rightAnswer;
+}
 
+function resetStats() {
+    count = 0;
+    rightAnswer = 0;
+
+    updateCounter();
+    document.getElementById("right-answer-count").textContent = rightAnswer;
+}
+
+let levelResults = [];
+function showFinalResult() {
+    const popup = document.getElementById("popup");
+
+    popup.innerHTML = `
+        <div class="title">Game completed!</div>
+
+        <div class="results">
+            ${allLevels.map((_, i) => `
+                <div class="result-row">
+                    <div class="level-name">${getLevelName(i)}</div>
+                    <div class="level-score">${levelResults[i]}/10</div>
+                </div>
+            `).join("")}
+        </div>
+
+        <div class="total">
+            Total: ${totalRightAnswers}/100
+        </div>
+
+        <div class="buttons">
+            <button class="menu">Restart</button>
+        </div>
+    `;
+
+    popup.classList.add("finishlevel");
+    popup.classList.remove("correct", "wrong");
+
+    showOverlay();
+    openPopup();
+
+    popup.querySelector(".menu").addEventListener("click", () => {
+        location.reload();
+    });
+}
+
+function getLevelName(index) {
+    const names = [
+        "Animals", "Food", "Colors", "Body",
+        "Clothes", "House", "Transport",
+        "Weather", "School", "Verbs"
+    ];
+    return names[index];
+}

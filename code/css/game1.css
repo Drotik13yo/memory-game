@@ -1,199 +1,145 @@
+:root {
+    --border-thick: 6px;
+    --border-color: #7a7a7a;
+}
 
+/* БАЗА */
 body {
+    margin: 0;
     background: #eee;
     font-family: sans-serif;
 }
 
+/* ЦЕНТРОВКА ВСЕГО */
+.game-container {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 40px;
+}
+
+/* ГЛАВНОЕ СЛОВО */
 #main-word {
     display: flex;
     justify-content: center;
     align-items: center;
 
-    margin: 40px auto 30px auto;
-    width: 250px;
-    height: 150px;
+    width: 620px;
+    height: 260px;
 
-    border: 2px solid #888;
-    border-radius: 8px;
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 24px;
 
-    text-align: center;
+    font-size: 64px;
+    font-weight: 400;
+    color: #111;
+
+    margin: 0;
 }
 
-/* Контейнер */
+/* КНОПКИ */
 .button-container {
     display: grid;
-    grid-template-columns: repeat(2, 120px);
-    gap: 15px;
-    justify-content: center;
-    padding: 20px;
+    grid-template-columns: repeat(2, 290px);
+    gap: 34px;
 }
 
-/* Кнопки */
 .button-container button {
-    padding: 10px;
-    border: 2px solid #888;
-    background: white;
-    border-radius: 6px;
-    font-size: 16px;
+    width: 290px;
+    height: 145px;
+
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 22px;
+
+    font-size: 38px;
+    font-weight: 400;
+    color: #111;
+
     cursor: pointer;
     transition: 0.2s;
 }
 
 .button-container button:hover {
-    background: #f2f2f2;
-    transform: scale(1.05);
-}
-.popup {
-    position: fixed;
-    top: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-20px);
-    
-    padding: 12px 24px;
-    border-radius: 10px;
-    
-    font-size: 16px;
-    font-weight: 500;
-    
-    opacity: 0;
-    pointer-events: none;
-    
-    transition: all 0.3s ease;
-    
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: #ededed;
+    transform: scale(1.02);
 }
 
-/* показать, убрать */
+/* POPUP */
+.popup {
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+
+    padding: 20px 36px;
+    border-radius: 20px;
+
+    font-size: 34px;
+    font-weight: 400;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
 .popup.show {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
 
-
-/* правильный ответ */
 .popup.correct {
-    background: #d8f3dc;      /* мягкий зелёный */
-    color: #2d6a4f;
-    border: 1px solid #95d5b2;
+    background: #d8f3dc;
+    border: var(--border-thick) solid #95d5b2;
 }
 
-/* неправильный ответ */
 .popup.wrong {
-    background: #f8d7da;      /* мягкий красный */
-    color: #842029;
-    border: 1px solid #f1aeb5;
+    background: #f8d7da;
+    border: var(--border-thick) solid #f1aeb5;
 }
-.progress-box {
+
+/* СЧЕТЧИКИ СПРАВА */
+.progress-box,
+.right-answer-box {
     position: fixed;
-    top: 30px;
     right: 30px;
 
-    padding: 12px 20px;
-    border-radius: 10px;
+    width: 220px;
+    height: 130px;
 
-    background: #fff;
-    border: 2px solid #888;
-
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
-
-    opacity: 0.9;
-
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-
-    transition: all 0.3s ease;
-}
-
-/* лёгкий hover как у кнопок */
-.progress-box:hover {
-    transform: scale(1.05);
-    background: #f2f2f2;
-}
-
-/* большой попап завершения уровня */
-.popup.finishlevel {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -55%);
-
-    width: 320px;
-    padding: 20px;
-
-    text-align: center;
-
-    background: #eee;              /* как у body */
-    border: 2px solid #888;       /* как у кнопок */
-    border-radius: 10px;
-
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
-
-    opacity: 0;
-    pointer-events: none;
-
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-
-    transition: all 0.3s ease;
-}
-
-/* показать */
-.popup.finishlevel.show {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-    pointer-events: auto;
-}
-
-/* текст внутри */
-.popup.finishlevel .title {
-    font-size: 22px;
-    margin-bottom: 20px;
-}
-
-/* контейнер кнопок */
-.popup.finishlevel .buttons {
     display: flex;
-    justify-content: space-between;
-    gap: 10px;
+    justify-content: center;
+    align-items: center;
+
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 24px;
+
+    font-size: 56px;
+    font-weight: 400;
+    color: #111;
 }
 
-/* кнопки */
-.popup.finishlevel button {
-    padding: 10px;
-    border: 2px solid #888;
-    background: white;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.2s;
+.progress-box {
+    top: 20px;
 }
 
-.popup.finishlevel button:hover {
-    background: #f2f2f2;
-    transform: scale(1.05);
+.right-answer-box {
+    top: 170px;
+    color: #2d6a4f;
 }
 
-/* кнопка "дальше" */
-.popup.finishlevel .next {
-    font-weight: 600;
+/* усиливаем число правильных */
+#right-answer-count {
+    font-size: 60px;
 }
 
-.popup.finishlevel .next:hover {
-    background: #43a047;
-}
-
-/* кнопка "в меню" */
-.popup.finishlevel .menu {
-    background: #e0e0e0;
-    color: #333;
-}
-
-.popup.finishlevel .menu:hover {
-    background: #d5d5d5;
-}
-
-/* затемнение фона */
+/* OVERLAY */
 #overlay {
     position: fixed;
     inset: 0;
@@ -201,12 +147,145 @@ body {
 
     opacity: 0;
     pointer-events: none;
-
-    transition: 0.3s;
 }
 
-/* показываем overlay */
 #overlay.show {
     opacity: 1;
     pointer-events: auto;
+}
+
+/* ФИНАЛЬНЫЙ POPUP */
+.popup.finishlevel,
+.popup.final {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+
+    width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    padding: 35px;
+
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 26px;
+
+    text-align: center;
+    font-size: 32px;
+    font-weight: 400;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+.popup.finishlevel.show,
+.popup.final.show {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+}
+
+/* ЗАГОЛОВОК */
+.popup.final .title,
+.popup.finishlevel .title {
+    font-size: 58px;
+    font-weight: 400;
+    margin-bottom: 28px;
+}
+
+/* КНОПКИ */
+.popup.finishlevel .buttons,
+.popup.final .buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 28px;
+}
+
+.popup.finishlevel button,
+.popup.final button {
+    flex: 1;
+    height: 90px;
+
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 20px;
+
+    font-size: 32px;
+    font-weight: 400;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.popup.finishlevel button:hover,
+.popup.final button:hover {
+    background: #e9e9e9;
+    transform: scale(1.02);
+}
+
+/* РЕЗУЛЬТАТЫ */
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 20px 0;
+}
+
+.result-row {
+    display: grid;
+    grid-template-columns: 1fr 180px;
+    gap: 22px;
+    align-items: center;
+}
+
+/* НАЗВАНИЕ */
+.level-name {
+    display: flex;
+    align-items: center;
+    padding-left: 24px;
+
+    height: 82px;
+
+    background: #f3f3f3;
+    border: var(--border-thick) solid #b5b5b5;
+    border-radius: 20px;
+
+    font-size: 32px;
+    font-weight: 400;
+}
+
+/* СЧЕТ */
+.level-score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 82px;
+
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 20px;
+
+    font-size: 32px;
+    font-weight: 400;
+}
+
+/* ИТОГ */
+.total {
+    margin-top: 28px;
+    height: 92px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 20px;
+
+    font-size: 36px;
+    font-weight: 400;
 }
