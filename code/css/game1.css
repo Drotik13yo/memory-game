@@ -73,24 +73,25 @@ body {
 /* POPUP */
 .popup {
     position: fixed;
-    top: 25px;
+    top: 31%;
     left: 50%;
-    transform: translateX(-50%) translateY(-20px);
+    transform: translate(-50%, -50%) scale(0.9);
 
-    padding: 20px 36px;
+    padding: 20px 40px;
     border-radius: 20px;
 
-    font-size: 34px;
+    font-size: 50px;
     font-weight: 400;
 
     opacity: 0;
     pointer-events: none;
-    transition: 0.3s;
+
+    transition: all 0.3s ease;
 }
 
 .popup.show {
     opacity: 1;
-    transform: translateX(-50%) translateY(0);
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .popup.correct {
@@ -288,4 +289,45 @@ body {
 
     font-size: 36px;
     font-weight: 400;
+}
+
+.level-name-box,
+.level-number-box {
+    position: fixed;
+    left: 30px;
+
+    width: 260px;
+    height: 150px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 24px;
+
+    font-size: 52px;      /* 🔥 увеличили */
+    font-weight: 400;
+    color: #111;
+
+    text-align: center;
+}
+
+/* верхний блок */
+.level-name-box {
+    top: 20px;
+}
+
+/* нижний блок */
+.level-number-box {
+    top: 200px;
+}
+
+.result {
+    background: #e3f2fd;
+}
+
+.result:hover {
+    background: #bbdefb;
 }
