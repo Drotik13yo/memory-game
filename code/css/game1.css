@@ -13,12 +13,10 @@ body {
 /* ЦЕНТРОВКА ВСЕГО */
 .game-container {
     min-height: 100vh;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     gap: 40px;
 }
 
@@ -27,22 +25,18 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
     width: 620px;
     height: 260px;
-
     background: #f3f3f3;
     border: var(--border-thick) solid var(--border-color);
     border-radius: 24px;
-
     font-size: 64px;
     font-weight: 400;
     color: #111;
-
     margin: 0;
 }
 
-/* КНОПКИ */
+/* КНОПКИ ИГРЫ */
 .button-container {
     display: grid;
     grid-template-columns: repeat(2, 290px);
@@ -52,15 +46,12 @@ body {
 .button-container button {
     width: 290px;
     height: 145px;
-
     background: #f3f3f3;
     border: var(--border-thick) solid var(--border-color);
     border-radius: 22px;
-
     font-size: 38px;
     font-weight: 400;
     color: #111;
-
     cursor: pointer;
     transition: 0.2s;
 }
@@ -76,16 +67,12 @@ body {
     top: 31%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
-
     padding: 20px 40px;
     border-radius: 20px;
-
     font-size: 50px;
     font-weight: 400;
-
     opacity: 0;
     pointer-events: none;
-
     transition: all 0.3s ease;
 }
 
@@ -104,23 +91,33 @@ body {
     border: var(--border-thick) solid #f1aeb5;
 }
 
+/* OVERLAY */
+#overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+}
+
+#overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 /* СЧЕТЧИКИ СПРАВА */
 .progress-box,
 .right-answer-box {
     position: fixed;
     right: 30px;
-
     width: 220px;
     height: 130px;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     background: #f3f3f3;
     border: var(--border-thick) solid var(--border-color);
     border-radius: 24px;
-
     font-size: 56px;
     font-weight: 400;
     color: #111;
@@ -135,48 +132,54 @@ body {
     color: #2d6a4f;
 }
 
-/* усиливаем число правильных */
 #right-answer-count {
     font-size: 60px;
 }
 
-/* OVERLAY */
-#overlay {
+/* БЛОКИ СЛЕВА */
+.level-name-box,
+.level-number-box {
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-
-    opacity: 0;
-    pointer-events: none;
+    left: 30px;
+    width: 260px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 24px;
+    font-size: 52px;
+    font-weight: 400;
+    color: #111;
+    text-align: center;
 }
 
-#overlay.show {
-    opacity: 1;
-    pointer-events: auto;
+.level-name-box {
+    top: 20px;
 }
 
-/* ФИНАЛЬНЫЙ POPUP */
+.level-number-box {
+    top: 200px;
+}
+
+/* POPUP ОКНА УРОВНЯ И ФИНАЛА */
 .popup.finishlevel,
 .popup.final {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -55%);
-
     width: 900px;
     max-height: 90vh;
     overflow-y: auto;
-
     padding: 35px;
-
     background: #f3f3f3;
     border: var(--border-thick) solid var(--border-color);
     border-radius: 26px;
-
     text-align: center;
     font-size: 32px;
     font-weight: 400;
-
     opacity: 0;
     pointer-events: none;
     transition: 0.3s;
@@ -189,40 +192,33 @@ body {
     pointer-events: auto;
 }
 
-/* ЗАГОЛОВОК */
-.popup.final .title,
-.popup.finishlevel .title {
+.popup.finishlevel .title,
+.popup.final .title {
     font-size: 58px;
     font-weight: 400;
     margin-bottom: 28px;
 }
 
-/* КНОПКИ */
-.popup.finishlevel .buttons,
-.popup.final .buttons {
+/* КНОПКИ В POPUP МЕЖДУ УРОВНЯМИ */
+.popup.finishlevel .buttons {
     display: flex;
     gap: 20px;
     margin-top: 28px;
 }
 
-.popup.finishlevel button,
-.popup.final button {
+.popup.finishlevel button {
     flex: 1;
     height: 90px;
-
     background: #f3f3f3;
     border: var(--border-thick) solid var(--border-color);
     border-radius: 20px;
-
     font-size: 32px;
     font-weight: 400;
-
     cursor: pointer;
     transition: 0.2s;
 }
 
-.popup.finishlevel button:hover,
-.popup.final button:hover {
+.popup.finishlevel button:hover {
     background: #e9e9e9;
     transform: scale(1.02);
 }
@@ -242,86 +238,69 @@ body {
     align-items: center;
 }
 
-/* НАЗВАНИЕ */
 .level-name {
     display: flex;
     align-items: center;
     padding-left: 24px;
-
     height: 82px;
-
     background: #f3f3f3;
     border: var(--border-thick) solid #b5b5b5;
     border-radius: 20px;
-
     font-size: 32px;
     font-weight: 400;
 }
 
-/* СЧЕТ */
 .level-score {
     display: flex;
     justify-content: center;
     align-items: center;
-
     height: 82px;
-
     background: #f3f3f3;
     border: var(--border-thick) solid var(--border-color);
     border-radius: 20px;
-
     font-size: 32px;
     font-weight: 400;
 }
 
-/* ИТОГ */
 .total {
     margin-top: 28px;
     height: 92px;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     background: #f3f3f3;
     border: var(--border-thick) solid var(--border-color);
     border-radius: 20px;
-
     font-size: 36px;
     font-weight: 400;
 }
 
-.level-name-box,
-.level-number-box {
-    position: fixed;
-    left: 30px;
+/* ФИНАЛЬНАЯ КНОПКА RESTART — КАК TOTAL */
+.popup.final .buttons {
+    display: flex;
+    margin-top: 28px;
+    justify-content: center;
+}
 
-    width: 260px;
-    height: 150px;
-
+.popup.final .buttons button {
+    width: 1500px;
+    height: 100px;
+    min-height: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-
     background: #f3f3f3;
     border: var(--border-thick) solid var(--border-color);
-    border-radius: 24px;
-
-    font-size: 52px;      /* 🔥 увеличили */
+    border-radius: 20px;
+    font-size: 36px;
     font-weight: 400;
-    color: #111;
-
-    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-/* верхний блок */
-.level-name-box {
-    top: 20px;
-}
-
-/* нижний блок */
-.level-number-box {
-    top: 200px;
+.popup.final .buttons button:hover {
+    background: #e9e9e9;
+    transform: scale(1.02);
 }
 
 .result {
@@ -330,4 +309,60 @@ body {
 
 .result:hover {
     background: #bbdefb;
+}
+
+/* МЕНЮ */
+.menu {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.menu-title {
+    width: 620px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 24px;
+    font-size: 58px;
+    font-weight: 400;
+    color: #111;
+}
+
+.level-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 34px;
+    width: 620px;
+}
+
+.level-buttons button {
+    width: 100%;
+    height: 130px;
+    background: #f3f3f3;
+    border: var(--border-thick) solid var(--border-color);
+    border-radius: 22px;
+    font-size: 28px;
+    font-weight: 400;
+    color: #111;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.level-buttons button:hover {
+    background: #ededed;
+    transform: scale(1.02);
+}
+
+.level-buttons button:disabled {
+    background: #e2e2e2;
+    color: #8a8a8a;
+    cursor: not-allowed;
+    transform: none;
 }

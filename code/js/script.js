@@ -137,6 +137,13 @@ const verbs = [
     { en: "run", nl: "rennen" },
     { en: "sleep", nl: "slapen" }
 ];
+
+const levelNames = [
+    "Animals", "Food", "Colors", "Body",
+    "Clothes", "House", "Transport",
+    "Weather", "School", "Verbs"
+];
+
 //переключение между  масивами уровней
 const allLevels = [ animals, food, colors, body, clothes, house, transport, weather, school, verbs]
 
@@ -152,6 +159,7 @@ let count = 0;
 //правильное слово
 let correctWord;
 //cчетчик правильных
+let totalAnswers = 0;
 let rightAnswer = 0;
 //подсчет баллов за уровень
 let totalRightAnswers = 0;
@@ -163,15 +171,22 @@ let isLocked = false;
 //пройденные уровни
 let levelsCompleted = 0;
 
-updateLevelUI();
-generateQuestion();
+let startLevelIndex = 0;
+
+// updateLevelUI();
+// generateQuestion();
+menu();
 
 function nextLevel() {
-    levelResults.push(rightAnswer);
+    levelResults.push({ level: currentLevel, score: rightAnswer });
 
     currentLevel++;
 
     if (currentLevel >= allLevels.length) {
+        currentLevel = 0;
+    }
+
+    if (currentLevel === startLevelIndex) {
         showFinalResult();
         return false;
     }
@@ -235,7 +250,7 @@ function generateQuestion() {
 };
 //если больше 10 слов отвечено, попап некст
 function checklevels(){
-    if (count >= 10){0
+    if (count >= 10){
         clearTimeout(popupTimer);
 
         setTimeout(() => {
@@ -259,34 +274,36 @@ function nextPopup() {
     `;
 
     popup.classList.add("finishlevel");
-    popup.classList.remove("correct", "wrong");
+    popup.classList.remove("correct", "wrong", "final");
 
     showOverlay();
     openPopup();
 
-    popup.querySelector(".next").addEventListener("click", () => {
-        const hasNext = nextLevel();
-        if (!hasNext) return;
-
+    popup.querySelector(".next").onclick = () => {
         hideOverlay();
         closePopup();
 
+        const hasNext = nextLevel();
+
+        if (!hasNext) {
+            return;
+        }
+
         isLocked = false;
         generateQuestion();
-    });
+    };
 
-    popup.querySelector(".result").addEventListener("click", () => {
-    // сохранить текущий уровень, если он ещё не сохранён
-    if (count > 0 && levelResults.length === currentLevel) {
-        levelResults.push(rightAnswer);
-    }
+    popup.querySelector(".result").onclick = () => {
+        if (!levelResults.find(r => r.level === currentLevel)) {
+            levelResults.push({ level: currentLevel, score: rightAnswer });
+        }
 
-    hideOverlay();
-    closePopup();
-
-    showFinalResult();
-});
+        hideOverlay();
+        closePopup();
+        showFinalResult();
+    };
 }
+
 //очистка 
 function resetStats() {
     count = 0;
@@ -330,13 +347,15 @@ function autoClosePopup() {
         if (isLocked) return;
         isLocked = true;
 
+        totalAnswers++;
+
         const btnText = document.getElementById(`word${i + 1}`).innerText;
         let popup = document.getElementById("popup");
 
         if (btnText === correctWord.nl){
             popup.innerHTML = "Correct!";
             popup.classList.add('correct');
-            popup.classList.remove('wrong', 'finishlevel');
+            popup.classList.remove('wrong', 'finishlevel', 'final');
 
             count++;
             updateCounter();
@@ -344,7 +363,7 @@ function autoClosePopup() {
         } else {
             popup.innerHTML = "Not correct!!";
             popup.classList.add('wrong');
-            popup.classList.remove('correct', 'finishlevel');
+            popup.classList.remove('correct', 'finishlevel', 'final');
 
             count++;
             updateCounter();
@@ -384,25 +403,26 @@ function showFinalResult() {
     <div class="title">Game completed!</div>
 
     <div class="results">
-        ${levelResults.map((result, i) => `
+        ${levelResults.filter(r => r && getLevelName(r.level)).map(r => `
             <div class="result-row">
-                <div class="level-name">${getLevelName(i)}</div>
-                <div class="level-score">${result}/10</div>
+                <div class="level-name">${getLevelName(r.level)}</div>
+                <div class="level-score">${r.score}/10</div>
             </div>
         `).join("")}
     </div>
 
     <div class="total">
-        Total: ${totalRightAnswers}/100
+        Total: ${totalRightAnswers}/${totalAnswers}
     </div>
 
     <div class="buttons">
-        <button class="menu">Restart</button>
+        <button class="menu">Menu</button>
     </div>
 `;
 
     popup.classList.add("finishlevel");
-    popup.classList.remove("correct", "wrong");
+    popup.classList.add("final");
+    popup.classList.remove("correct", "wrong", "finishlevel");
 
     showOverlay();
     openPopup();
@@ -413,21 +433,50 @@ function showFinalResult() {
 }
 
 function getLevelName(index) {
-    const names = [
-        "Animals", "Food", "Colors", "Body",
-        "Clothes", "House", "Transport",
-        "Weather", "School", "Verbs"
-    ];
-    return names[index];
+    return levelNames[index];
 }
 
 function updateLevelUI() {
-    const names = [
-        "Animals", "Food", "Colors", "Body",
-        "Clothes", "House", "Transport",
-        "Weather", "School", "Verbs"
-    ];
-
-    document.getElementById("level-name").textContent = names[currentLevel];
+    document.getElementById("level-name").textContent = levelNames[currentLevel];
     document.getElementById("level-number").textContent = `Level ${currentLevel + 1}`;
+}
+
+
+function menu() {
+    const container = document.getElementById("level-buttons");
+
+    levelNames.forEach((name, index) => {
+        const btn = document.createElement("button");
+        btn.innerText = `Level ${index + 1} - ${name}`;
+
+        btn.addEventListener("click", () => startLevel(index));
+
+        container.appendChild(btn);
+    });
+}
+
+function startLevel(levelIndex) {
+    currentLevel = levelIndex;
+    startLevelIndex=levelIndex;
+
+    currentLevels = allLevels[currentLevel];
+    remainingWords = [...currentLevels];
+
+    // сброс
+    count = 0;
+    rightAnswer = 0;
+    totalAnswers = 0;
+    totalRightAnswers = 0;
+    levelResults = [];
+
+    updateCounter();
+    document.getElementById("right-answer-count").textContent = 0;
+
+    updateLevelUI();
+
+    // скрыть меню, показать игру
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("game").style.display = "block";
+
+    generateQuestion();
 }
